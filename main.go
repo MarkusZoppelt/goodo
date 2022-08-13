@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 
 	task "zoppelt.net/goodo/task"
@@ -9,17 +8,13 @@ import (
 )
 
 func main() {
+	// var verbose bool
+	// flag.BoolVar(&verbose, "verbose", false, "Be verbose. Prints more information")
+	// flag.Parse()
 
-	var verbose bool
-	flag.BoolVar(&verbose, "verbose", false, "Be verbose. Prints more information")
-	flag.Parse()
+	t := todo.New("Wash feet", "Wash both feet")
+	t.AddTask(*task.New("Wash left foot"))
+	t.AddTask(*task.New("Wash right foot"))
 
-	todo1 := todo.New("Wash feet", "Wash both feet")
-	task1 := task.New("Wash left foot")
-	task2 := task.New("Wash right foot")
-
-	a := append(todo1.Tasks, *task1, *task2)
-
-	fmt.Println("Todo1: ", todo1.Name, "Description: ", todo1.Description)
-	fmt.Println("Tasks for Todo1: ", a)
+	fmt.Println(t.ToString())
 }
