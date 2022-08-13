@@ -10,7 +10,7 @@ import (
 	"zoppelt.net/goodo/todo"
 )
 
-const dbFile string = "goodo.db"
+const DataBaseFile string = "goodo.db"
 
 func check(e error) {
 	if e != nil {
@@ -18,8 +18,8 @@ func check(e error) {
 	}
 }
 
-func CreateDB() {
-	db, err := sql.Open("sqlite3", dbFile)
+func InitDB() {
+	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 
@@ -34,7 +34,7 @@ func CreateDB() {
 }
 
 func InsertTodo(t todo.Todo) {
-	db, err := sql.Open("sqlite3", dbFile)
+	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 
@@ -50,7 +50,7 @@ func InsertTodo(t todo.Todo) {
 }
 
 func RemoveTodo(t todo.Todo) {
-	db, err := sql.Open("sqlite3", dbFile)
+	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 
@@ -62,7 +62,7 @@ func RemoveTodo(t todo.Todo) {
 }
 
 func UpdateTodoTasks(todo todo.Todo, withTasks []task.Task) {
-	db, err := sql.Open("sqlite3", dbFile)
+	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 
@@ -79,14 +79,14 @@ func UpdateTodoTasks(todo todo.Todo, withTasks []task.Task) {
 
 func AddTaskToTodo(to todo.Todo, ta task.Task) {
 	todo := GetTodoWithID(to.ID)
-	tasks := GetTasksForTodo(todo)
+	tasks := todo.Tasks
 	tasks = append(tasks, ta)
 	UpdateTodoTasks(todo, tasks)
 }
 
 func RemoveTaskFromTodo(to todo.Todo, ta task.Task) {
 	todo := GetTodoWithID(to.ID)
-	tasks := GetTasksForTodo(todo)
+	tasks := todo.Tasks
 	var updatedTasks []task.Task
 	for _, elem := range tasks {
 		if elem.ID != ta.ID {
@@ -94,11 +94,11 @@ func RemoveTaskFromTodo(to todo.Todo, ta task.Task) {
 		}
 	}
 	UpdateTodoTasks(todo, updatedTasks)
-	removeTaskWithID(ta.ID)
+	deleteTaskWithID(ta.ID)
 }
 
-func removeTaskWithID(tid string) {
-	db, err := sql.Open("sqlite3", dbFile)
+func deleteTaskWithID(tid string) {
+	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 
@@ -109,12 +109,8 @@ func removeTaskWithID(tid string) {
 	check(err)
 }
 
-func GetTasksForTodo(t todo.Todo) []task.Task {
-	return t.Tasks
-}
-
 func GetTodoWithID(tid string) todo.Todo {
-	db, err := sql.Open("sqlite3", dbFile)
+	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 
@@ -147,7 +143,7 @@ func GetAllTodos() []todo.Todo {
 
 	var todos []todo.Todo
 
-	db, err := sql.Open("sqlite3", dbFile)
+	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 

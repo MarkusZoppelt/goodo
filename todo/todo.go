@@ -36,7 +36,3 @@ func (t Todo) ToString() string {
 
 	return strings.TrimSuffix(pretty, "\n")
 }
-
-func (t *Todo) AddTask(task task.Task) {
-	t.Tasks = append(t.Tasks, task)
-}
