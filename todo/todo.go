@@ -10,7 +10,7 @@ import (
 )
 
 type Todo struct {
-	id          uuid.UUID
+	ID          string
 	Name        string
 	Description string
 	Tasks       []task.Task
@@ -19,7 +19,7 @@ type Todo struct {
 func New(name string, description string) *Todo {
 	var tasks []task.Task
 	t := Todo{
-		id:          uuid.New(),
+		ID:          uuid.New().String(),
 		Name:        name,
 		Description: description,
 		Tasks:       tasks,

@@ -3,13 +3,13 @@ package task
 import "github.com/google/uuid"
 
 type Task struct {
-	id   uuid.UUID
+	ID   string
 	Name string
 }
 
 func New(name string) *Task {
 	t := Task{
-		id:   uuid.New(),
+		ID:   uuid.New().String(),
 		Name: name,
 	}
 	return &t
