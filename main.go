@@ -7,9 +7,8 @@ import (
 	"os"
 
 	db "zoppelt.net/goodo/db"
-
-	task "zoppelt.net/goodo/task"
-	todo "zoppelt.net/goodo/todo"
+	"zoppelt.net/goodo/task"
+	"zoppelt.net/goodo/todo"
 )
 
 func showTodoList() {
@@ -21,8 +20,17 @@ func showTodoList() {
 
 func main() {
 
+	flag.Usage = func() {
+
+		fmt.Fprintf(flag.CommandLine.Output(), "Subcommands:\n")
+		fmt.Fprintf(flag.CommandLine.Output(), "  createTodo <name> <description>    creates new Todo\n")
+
+		fmt.Fprintf(flag.CommandLine.Output(), "Flags:\n")
+		flag.PrintDefaults()
+	}
+
 	fresh := flag.Bool("f", false, "Delete DB and start fresh. Deletes everything!")
-	// showAll := flag.Bool("l", false, "Shows your ToDo List. Prints everything.")
+	showAll := flag.Bool("l", false, "Shows your ToDo List. Prints everything.")
 
 	flag.Parse()
 
@@ -30,29 +38,26 @@ func main() {
 		db.InitDB()
 	}
 
-	test := todo.New("Test Todo", "Test description")
-	testTask1 := task.New("123")
-	testTask2 := task.New("456")
-	db.InsertTodo(*test)
-	db.AddTaskToTodo(*test, *testTask1)
-	db.AddTaskToTodo(*test, *testTask2)
+	if *showAll {
+		showTodoList()
+	}
 
-	showTodoList()
+	if flag.Arg(0) == "createTodo" {
+		t := todo.New(flag.Arg(1), flag.Arg(2))
+		db.InsertTodo(*t)
+		println("Created new todo with ID: ", t.ID)
+	}
 
-	db.RemoveTaskFromTodo(*test, *testTask1)
-	db.RemoveTaskFromTodo(*test, *testTask2)
+	if flag.Arg(0) == "addTask" {
+		to := db.GetTodoWithID(flag.Arg(1))
+		ta := task.New(flag.Arg(2))
+		db.AddTaskToTodo(to, *ta)
+		println("Created new task with ID: ", ta.ID)
+	}
 
-	println("---")
-	showTodoList()
-
-	testTask3 := task.New("task that needs to be deleted")
-	db.AddTaskToTodo(*test, *testTask3)
-
-	println("---")
-	showTodoList()
-
-	db.RemoveTaskFromTodo(*test, *testTask3)
-
-	println("---")
-	showTodoList()
+	if flag.Arg(0) == "deleteTodo" {
+		t := db.GetTodoWithID(flag.Arg(1))
+		db.RemoveTodo(t)
+		println("Deleted todo with ID: ", t.ID)
+	}
 }

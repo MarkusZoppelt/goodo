@@ -59,6 +59,37 @@ func RemoveTodo(t todo.Todo) {
 		WHERE id == ?
 	`, t.ID)
 	check(err)
+
+	// also delete every task from that ToDo from the db
+	for _, task := range t.Tasks {
+		deleteTaskWithID(task.ID)
+	}
+}
+
+func UpdateTodoName(todo todo.Todo, withName string) {
+	db, err := sql.Open("sqlite3", DataBaseFile)
+	check(err)
+	defer db.Close()
+
+	_, err = db.Exec(`
+		UPDATE todos
+		SET name = ?
+		WHERE id == ?
+	`, withName, todo.ID)
+	check(err)
+}
+
+func UpdateTodoDescription(todo todo.Todo, withDescription string) {
+	db, err := sql.Open("sqlite3", DataBaseFile)
+	check(err)
+	defer db.Close()
+
+	_, err = db.Exec(`
+		UPDATE todos
+		SET description = ?
+		WHERE id == ?
+	`, withDescription, todo.ID)
+	check(err)
 }
 
 func UpdateTodoTasks(todo todo.Todo, withTasks []task.Task) {
@@ -82,6 +113,19 @@ func AddTaskToTodo(to todo.Todo, ta task.Task) {
 	tasks := todo.Tasks
 	tasks = append(tasks, ta)
 	UpdateTodoTasks(todo, tasks)
+}
+
+func UpdateTask(ta task.Task, withName string) {
+	db, err := sql.Open("sqlite3", DataBaseFile)
+	check(err)
+	defer db.Close()
+
+	_, err = db.Exec(`
+		UPDATE tasks
+		SET name = ?
+		WHERE id == ?
+	`, withName, ta.ID)
+	check(err)
 }
 
 func RemoveTaskFromTodo(to todo.Todo, ta task.Task) {
