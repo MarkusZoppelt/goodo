@@ -115,18 +115,21 @@ func AddTaskToTodo(to todo.Todo, ta task.Task) {
 	UpdateTodoTasks(todo, tasks)
 }
 
-// TODO
-func UpdateTask(ta task.Task, withName string) {
+func UpdateTask(to todo.Todo, ta task.Task, withName string) {
 	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)
 	defer db.Close()
 
-	_, err = db.Exec(`
-		UPDATE tasks
-		SET name = ?
-		WHERE id == ?
-	`, withName, ta.ID)
-	check(err)
+	todo := GetTodoWithID(to.ID)
+
+	var updatedTasks []task.Task
+	for _, elem := range todo.Tasks {
+		if elem.ID == ta.ID {
+			elem.Name = withName
+		}
+		updatedTasks = append(updatedTasks, elem)
+	}
+	UpdateTodoTasks(todo, updatedTasks)
 }
 
 func RemoveTaskFromTodo(to todo.Todo, ta task.Task) {

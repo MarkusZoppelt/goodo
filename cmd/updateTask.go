@@ -16,7 +16,6 @@ var updateTaskCommand = &cobra.Command{
 	Short: "Update a ToDo's Task with a new name",
 	Args:  cobra.MinimumNArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
-
 		todos := db.GetAllTodos()
 
 		todoIndex, _ := strconv.Atoi(args[0])
@@ -25,8 +24,7 @@ var updateTaskCommand = &cobra.Command{
 		taskIndex, _ := strconv.Atoi(args[1])
 		selectedTask := selectedTodo.Tasks[taskIndex-1]
 
-		db.UpdateTask(selectedTask, args[2])
-		println("Updated Task with ID: %s with new name: ", selectedTask.Name)
-
+		db.UpdateTask(selectedTodo, selectedTask, args[2])
+		println("Updated Task with new name: ", args[2])
 	},
 }
