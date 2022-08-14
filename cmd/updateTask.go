@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"strconv"
+
 	"github.com/spf13/cobra"
 	"zoppelt.net/goodo/db"
 )
@@ -10,17 +12,21 @@ func init() {
 }
 
 var updateTaskCommand = &cobra.Command{
-	Use:   "updateTask [TODO UUID] [TASK UUID] [NAME]",
+	Use:   "updateTask [TODO INDEX] [TASK INDEX] [NAME]",
 	Short: "Update a Todo's Task with a new name",
 	Args:  cobra.MinimumNArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
-		to := db.GetTodoWithID(args[0])
 
-		for _, task := range to.Tasks {
-			if task.ID == args[1] {
-				db.UpdateTask(task, args[2])
-				println("Updated Task with ID: %s with new name: ", task.Name)
-			}
-		}
+		todos := db.GetAllTodos()
+
+		todoIndex, _ := strconv.Atoi(args[0])
+		selectedTodo := todos[todoIndex-1]
+
+		taskIndex, _ := strconv.Atoi(args[1])
+		selectedTask := selectedTodo.Tasks[taskIndex-1]
+
+		db.UpdateTask(selectedTask, args[2])
+		println("Updated Task with ID: %s with new name: ", selectedTask.Name)
+
 	},
 }

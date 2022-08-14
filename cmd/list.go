@@ -16,9 +16,14 @@ var listCommand = &cobra.Command{
 	Short: "Prints all ToDos and Tasks",
 	Long:  `Shows a pretty-format for all ToDos and their associated Tasks.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		colorGreen := "\033[32m"
+		colorReset := "\033[0m"
+
 		todos := db.GetAllTodos()
 		for i, todo := range todos {
-			fmt.Println("[", i+1, "] ", todo.ToString())
+			fmt.Print(string(colorGreen), "[", i+1, "] ", string(colorReset))
+			fmt.Println(todo.ToString())
 		}
 	},
 }
