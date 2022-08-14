@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -19,8 +20,17 @@ var addTaskCommand = &cobra.Command{
 	Args:  cobra.MinimumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		todos := db.GetAllTodos()
+		if len(todos) == 0 {
+			println("No ToDos found. \nHint: You can only add Tasks to existing ToDos")
+			os.Exit(1)
+		}
 
-		index, _ := strconv.Atoi(args[0])
+		index, err := strconv.Atoi(args[0])
+		if err != nil {
+			println("Invalid index")
+			os.Exit(1)
+		}
+
 		selected := todos[index-1]
 
 		ta := task.New(args[1])

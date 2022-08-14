@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -18,11 +19,23 @@ var deleteTaskCommand = &cobra.Command{
 	Args:  cobra.MinimumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		todos := db.GetAllTodos()
+		if len(todos) == 0 {
+			println("No ToDos found.")
+			os.Exit(1)
+		}
 
-		todoIndex, _ := strconv.Atoi(args[0])
+		todoIndex, errTo := strconv.Atoi(args[0])
+		if errTo != nil {
+			println("Invalid ToDo index")
+			os.Exit(1)
+		}
 		selectedTodo := todos[todoIndex-1]
 
-		taskIndex, _ := strconv.Atoi(args[1])
+		taskIndex, errTa := strconv.Atoi(args[1])
+		if errTa != nil {
+			println("Invalid Task index")
+			os.Exit(1)
+		}
 		selectedTask := selectedTodo.Tasks[taskIndex-1]
 
 		db.RemoveTaskFromTodo(selectedTodo, selectedTask)

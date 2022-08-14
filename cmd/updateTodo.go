@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -17,8 +18,16 @@ var updateTodoCommand = &cobra.Command{
 	Args:  cobra.MinimumNArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 		todos := db.GetAllTodos()
+		if len(todos) == 0 {
+			println("No ToDos found.")
+			os.Exit(1)
+		}
 
-		index, _ := strconv.Atoi(args[0])
+		index, err := strconv.Atoi(args[0])
+		if err != nil {
+			println("Invalid index")
+			os.Exit(1)
+		}
 		selected := todos[index-1]
 
 		db.UpdateTodoName(selected, args[1])
