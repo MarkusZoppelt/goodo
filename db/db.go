@@ -115,6 +115,7 @@ func AddTaskToTodo(to todo.Todo, ta task.Task) {
 	UpdateTodoTasks(todo, tasks)
 }
 
+// TODO
 func UpdateTask(ta task.Task, withName string) {
 	db, err := sql.Open("sqlite3", DataBaseFile)
 	check(err)

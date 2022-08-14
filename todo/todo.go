@@ -30,8 +30,8 @@ func New(name string, description string) *Todo {
 func (t Todo) ToString() string {
 	pretty := t.Name + " - " + t.Description + "\n"
 
-	for _, task := range t.Tasks {
-		pretty += fmt.Sprintln(" ↳ ", task.Name)
+	for i, task := range t.Tasks {
+		pretty += fmt.Sprintln("       ↳ [", i+1, "]", task.Name)
 	}
 
 	return strings.TrimSuffix(pretty, "\n")
