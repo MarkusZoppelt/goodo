@@ -17,7 +17,6 @@ var deleteTaskCommand = &cobra.Command{
 	Long:  `Delete a Task from a given Task`,
 	Args:  cobra.MinimumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-
 		todos := db.GetAllTodos()
 
 		todoIndex, _ := strconv.Atoi(args[0])

@@ -18,7 +18,6 @@ var addTaskCommand = &cobra.Command{
 	Long:  `Add a new Task with a given Name to a given ToDo UUID`,
 	Args:  cobra.MinimumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-
 		todos := db.GetAllTodos()
 
 		index, _ := strconv.Atoi(args[0])

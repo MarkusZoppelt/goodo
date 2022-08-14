@@ -16,7 +16,6 @@ var updateTodoCommand = &cobra.Command{
 	Short: "Update a ToDo's name and description",
 	Args:  cobra.MinimumNArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
-
 		todos := db.GetAllTodos()
 
 		index, _ := strconv.Atoi(args[0])

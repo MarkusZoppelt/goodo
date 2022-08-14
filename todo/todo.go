@@ -28,8 +28,6 @@ func New(name string, description string) *Todo {
 }
 
 func (t Todo) ToString() string {
-
-	// colorGreen := "\033[32m"
 	colorYellow := "\033[33m"
 	colorCyan := "\033[36m"
 	colorReset := "\033[0m"
@@ -38,7 +36,8 @@ func (t Todo) ToString() string {
 		" - " + t.Description + "\n"
 
 	for i, task := range t.Tasks {
-		pretty += "    ↳ " + string(colorYellow) + "[" + fmt.Sprint(i+1) + "] " +
+		pretty += "    ↳ " +
+			string(colorYellow) + "[" + fmt.Sprint(i+1) + "] " +
 			string(colorReset) + task.Name + "\n"
 	}
 
