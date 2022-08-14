@@ -9,13 +9,13 @@ import (
 )
 
 func init() {
-	rootCmd.AddCommand(createTaskCommand)
+	rootCmd.AddCommand(addTaskCommand)
 }
 
-var createTaskCommand = &cobra.Command{
+var addTaskCommand = &cobra.Command{
 	Use:   "addTask [TODO INDEX] [NAME]",
-	Short: "Add a new Task to a given Todo",
-	Long:  `Add a new Task with a given Name to a given Todo UUID`,
+	Short: "Add a new Task to a given ToDo",
+	Long:  `Add a new Task with a given Name to a given ToDo UUID`,
 	Args:  cobra.MinimumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 

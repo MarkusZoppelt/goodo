@@ -13,7 +13,7 @@ func init() {
 
 var updateTodoCommand = &cobra.Command{
 	Use:   "updateTodo [TODO INDEX] [NAME] [DESCRIPTION]",
-	Short: "Update a Todo's name and description",
+	Short: "Update a ToDo's name and description",
 	Args:  cobra.MinimumNArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 
