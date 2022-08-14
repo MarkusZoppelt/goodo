@@ -24,7 +24,7 @@ var updateTodoCommand = &cobra.Command{
 		}
 
 		index, err := strconv.Atoi(args[0])
-		if err != nil {
+		if err != nil || index < 1 || index > len(todos) {
 			println("Invalid index")
 			os.Exit(1)
 		}

@@ -25,14 +25,14 @@ var deleteTaskCommand = &cobra.Command{
 		}
 
 		todoIndex, errTo := strconv.Atoi(args[0])
-		if errTo != nil {
+		if errTo != nil || todoIndex < 1 || todoIndex > len(todos) {
 			println("Invalid ToDo index")
 			os.Exit(1)
 		}
 		selectedTodo := todos[todoIndex-1]
 
 		taskIndex, errTa := strconv.Atoi(args[1])
-		if errTa != nil {
+		if errTa != nil || taskIndex < 1 || taskIndex > len(selectedTodo.Tasks) {
 			println("Invalid Task index")
 			os.Exit(1)
 		}

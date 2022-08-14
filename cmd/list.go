@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 	"zoppelt.net/goodo/db"
 )
@@ -21,8 +19,8 @@ var listCommand = &cobra.Command{
 
 		todos := db.GetAllTodos()
 		for i, todo := range todos {
-			fmt.Print(string(colorGreen), "[", i+1, "] ", string(colorReset))
-			fmt.Println(todo.ToString())
+			print(string(colorGreen), "[", i+1, "] ", string(colorReset))
+			println(todo.ToString())
 		}
 	},
 }
