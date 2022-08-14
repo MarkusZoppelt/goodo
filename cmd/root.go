@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -26,8 +25,7 @@ func Execute() {
 		os.Exit(1)
 	}
 
-	// init db if it doesn't exist
-	if _, err := os.Stat(db.DataBaseFile); errors.Is(err, os.ErrNotExist) || DELETE {
+	if DELETE {
 		db.InitDB()
 	}
 }
