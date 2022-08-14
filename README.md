@@ -2,6 +2,8 @@
 
 A simple command-line ToDo app written in Go.
 
+![logo](.github/logo.png)
+
 
 Usage:
 
