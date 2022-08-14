@@ -2,6 +2,9 @@
 
 A simple command-line ToDo app written in Go.
 
+
+Usage:
+
     Usage:
       goodo [flags]
       goodo [command]
@@ -32,3 +35,12 @@ Each TASK has only a name.
  - create, read, update and delete TODOs.
  - remove TASKS from TODOs
  - update individual TASKS
+
+Run:
+
+    go run main.go
+
+Build:
+
+    go build
+
