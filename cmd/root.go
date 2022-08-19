@@ -12,6 +12,18 @@ var rootCmd = &cobra.Command{
 	Use:   "goodo",
 	Short: "GooDo is a simple CLI app for managing ToDos and Tasks",
 	Run: func(cmd *cobra.Command, args []string) {
+		logoAscii := `                                                                 
+       ((((((         /((((/      ,(((((((((((    ****/(((((      (((((((((((   
+   (((((((((((((  ((((((((((((( ((((((((((((((((  **//((((((((/(((((((((((((((( 
+ /(((((     (.  /(((((     (((((((((        (((((((////   (((((((((        (((((
+ ((((,  ((((((((((((        (((((((         (((((.(////    (((((((         (((((
+ (((((      (((((((((      (((((((((      ((((((((/////   (((((((((      *((((( 
+  (((((((((((((  (((((((((((((**((((((((((((((. **(///((((((((,(((((((((((((((  
+    /(((((((       /(((((((       (((((((((    **/////(((((      /((((((((,     
+		`
+		println(logoAscii)
+		println("Running without subcommand.")
+		println("Use \"goodo [command] --help\" for more information about a command.")
 	},
 }
 
