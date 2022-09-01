@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	_ "embed"
 	"encoding/json"
 	"log"
 
@@ -11,6 +12,35 @@ import (
 )
 
 const DataBaseFile string = "goodo.db"
+
+var (
+	//go:embed schema.sql
+	schemaSQL string
+
+	//go:embed insertTodo.sql
+	insertTodoSQL string
+
+	//go:embed removeTodo.sql
+	removeTodoSQL string
+
+	//go:embed updateTodoName.sql
+	updateTodoNameSQL string
+
+	//go:embed updateTodoDescription.sql
+	updateTodoDescriptionSQL string
+
+	//go:embed updateTodoTasks.sql
+	updateTodoTasksSQL string
+
+	//go:embed deleteTask.sql
+	deleteTaskSQL string
+
+	//go:embed selectTodo.sql
+	selectTodoSQL string
+
+	//go:embed selectAllTodos.sql
+	selectAllTodosSQL string
+)
 
 func check(e error) {
 	if e != nil {
@@ -23,13 +53,7 @@ func InitDB() {
 	check(err)
 	defer db.Close()
 
-	init := `
-		DROP TABLE IF EXISTS todos;
-		DROP TABLE IF EXISTS tasks;
-		CREATE TABLE todos(id TEXT PRIMARY KEY, name TEXT, description TEXT, tasks BLOB);
-		CREATE TABLE tasks(id TEXT PRIMARY KEY, name TEXT);
-	`
-	_, err = db.Exec(init)
+	_, err = db.Exec(schemaSQL)
 	check(err)
 }
 
@@ -41,11 +65,7 @@ func InsertTodo(t todo.Todo) {
 	tasks, err := json.Marshal(t.Tasks)
 	check(err)
 
-	command := `
-		INSERT INTO todos(id, name, description, tasks)
-		VALUES(?,?,?,?)
-	`
-	_, err = db.Exec(command, t.ID, t.Name, t.Description, string(tasks))
+	_, err = db.Exec(insertTodoSQL, t.ID, t.Name, t.Description, string(tasks))
 	check(err)
 }
 
@@ -54,10 +74,7 @@ func RemoveTodo(t todo.Todo) {
 	check(err)
 	defer db.Close()
 
-	_, err = db.Exec(`
-		DELETE FROM todos
-		WHERE id == ?
-	`, t.ID)
+	_, err = db.Exec(removeTodoSQL, t.ID)
 	check(err)
 
 	// also delete every task from that ToDo from the db
@@ -71,11 +88,7 @@ func UpdateTodoName(todo todo.Todo, withName string) {
 	check(err)
 	defer db.Close()
 
-	_, err = db.Exec(`
-		UPDATE todos
-		SET name = ?
-		WHERE id == ?
-	`, withName, todo.ID)
+	_, err = db.Exec(updateTodoNameSQL, withName, todo.ID)
 	check(err)
 }
 
@@ -84,11 +97,7 @@ func UpdateTodoDescription(todo todo.Todo, withDescription string) {
 	check(err)
 	defer db.Close()
 
-	_, err = db.Exec(`
-		UPDATE todos
-		SET description = ?
-		WHERE id == ?
-	`, withDescription, todo.ID)
+	_, err = db.Exec(updateTodoDescriptionSQL, withDescription, todo.ID)
 	check(err)
 }
 
@@ -100,11 +109,7 @@ func UpdateTodoTasks(todo todo.Todo, withTasks []task.Task) {
 	tasks, err := json.Marshal(withTasks)
 	check(err)
 
-	_, err = db.Exec(`
-		UPDATE todos
-		SET tasks = ?
-		WHERE id == ?
-	`, string(tasks), todo.ID)
+	_, err = db.Exec(updateTodoTasksSQL, string(tasks), todo.ID)
 	check(err)
 }
 
@@ -150,10 +155,7 @@ func deleteTaskWithID(tid string) {
 	check(err)
 	defer db.Close()
 
-	_, err = db.Exec(`
-		DELETE FROM tasks
-		WHERE id == ?
-	`, tid)
+	_, err = db.Exec(deleteTaskSQL, tid)
 	check(err)
 }
 
@@ -162,7 +164,7 @@ func GetTodoWithID(tid string) todo.Todo {
 	check(err)
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM todos WHERE id == ?", tid)
+	rows, err := db.Query(selectTodoSQL, tid)
 	check(err)
 	defer rows.Close()
 	rows.Next()
@@ -195,7 +197,7 @@ func GetAllTodos() []todo.Todo {
 	check(err)
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM todos")
+	rows, err := db.Query(selectAllTodosSQL)
 	check(err)
 	defer rows.Close()
 
