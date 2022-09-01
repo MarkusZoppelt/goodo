@@ -35,6 +35,5 @@ var addTaskCommand = &cobra.Command{
 
 		ta := task.New(args[1])
 		db.AddTaskToTodo(selected, *ta)
-		println("Created new task with ID: ", ta.ID)
 	},
 }

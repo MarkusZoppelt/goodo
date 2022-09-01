@@ -33,6 +33,5 @@ var deleteTodoCommand = &cobra.Command{
 		selected := todos[index-1]
 
 		db.RemoveTodo(selected)
-		println("Deleted todo with ID: ", selected.ID)
 	},
 }

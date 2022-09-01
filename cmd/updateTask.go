@@ -38,6 +38,5 @@ var updateTaskCommand = &cobra.Command{
 		selectedTask := selectedTodo.Tasks[taskIndex-1]
 
 		db.UpdateTask(selectedTodo, selectedTask, args[2])
-		println("Updated Task with new name: ", args[2])
 	},
 }

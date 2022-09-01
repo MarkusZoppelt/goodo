@@ -39,6 +39,5 @@ var deleteTaskCommand = &cobra.Command{
 		selectedTask := selectedTodo.Tasks[taskIndex-1]
 
 		db.RemoveTaskFromTodo(selectedTodo, selectedTask)
-		println("Deleted Task with ID:", selectedTask.ID)
 	},
 }

@@ -18,6 +18,5 @@ var addTodoCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		t := todo.New(args[0], args[1])
 		db.InsertTodo(*t)
-		println("Added new todo with ID: ", t.ID)
 	},
 }
