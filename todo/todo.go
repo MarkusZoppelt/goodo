@@ -10,10 +10,10 @@ import (
 )
 
 type Todo struct {
-	ID          string
-	Name        string
-	Description string
-	Tasks       []task.Task
+	ID          string      `json:"id"`
+	Name        string      `json:"name"`
+	Description string      `json:"description"`
+	Tasks       []task.Task `json:"tasks"`
 }
 
 func New(name string, description string) *Todo {

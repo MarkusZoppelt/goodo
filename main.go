@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
 	// init db if it doesn't exist
 	if _, err := os.Stat(db.DataBaseFile); errors.Is(err, os.ErrNotExist) {
 		db.InitDB()

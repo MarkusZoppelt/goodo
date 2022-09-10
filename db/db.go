@@ -172,13 +172,13 @@ func GetTodoWithID(tid string) todo.Todo {
 	var id string
 	var name string
 	var description string
-	var tasks_json string
+	var tasksJSON string
 	var tasks []task.Task
 
-	err = rows.Scan(&id, &name, &description, &tasks_json)
+	err = rows.Scan(&id, &name, &description, &tasksJSON)
 	check(err)
 
-	json.Unmarshal([]byte(tasks_json), &tasks)
+	json.Unmarshal([]byte(tasksJSON), &tasks)
 
 	return todo.Todo{
 		ID:          id,
@@ -186,11 +186,9 @@ func GetTodoWithID(tid string) todo.Todo {
 		Description: description,
 		Tasks:       tasks,
 	}
-
 }
 
 func GetAllTodos() []todo.Todo {
-
 	var todos []todo.Todo
 
 	db, err := sql.Open("sqlite3", DataBaseFile)
@@ -205,13 +203,13 @@ func GetAllTodos() []todo.Todo {
 		var id string
 		var name string
 		var description string
-		var tasks_json string
+		var tasksJSON string
 		var tasks []task.Task
 
-		err = rows.Scan(&id, &name, &description, &tasks_json)
+		err = rows.Scan(&id, &name, &description, &tasksJSON)
 		check(err)
 
-		err := json.Unmarshal([]byte(tasks_json), &tasks)
+		err := json.Unmarshal([]byte(tasksJSON), &tasks)
 		check(err)
 
 		t := todo.Todo{

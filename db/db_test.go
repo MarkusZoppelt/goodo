@@ -7,7 +7,6 @@ import (
 )
 
 func TestInsertTodo(t *testing.T) {
-
 	InitDB()
 
 	test := todo.New("Test Todo", "Test Description")

@@ -3,8 +3,8 @@ package task
 import "github.com/google/uuid"
 
 type Task struct {
-	ID   string
-	Name string
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 func New(name string) *Task {
