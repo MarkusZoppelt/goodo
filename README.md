@@ -4,6 +4,9 @@ A simple command-line ToDo app written in Go.
 
 ![logo](.github/logo.png)
 
+![build status](https://github.com/MarkusZoppelt/goodo/actions/workflows/go.yml/badge.svg)
+![codeql-analysis](https://github.com/MarkusZoppelt/goodo/actions/workflows/codeql-analysis.yml/badge.svg)
+
 
     Usage:
       goodo [flags]
